@@ -7,3 +7,21 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+model User {
+    id        String   @id @default(uuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    email     String   @unique
+    name      String?
+    accounts  Account[]
+}
+
+model Account {
+    id        String   @id @default(uuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    userId    String
+    user      User     @relation(fields: [userId], references: [id])
+    money     Int
+
+}
