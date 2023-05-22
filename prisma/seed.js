@@ -11,6 +11,7 @@ async function main() {
       name: 'M.Test',
       accounts: {
         create: {
+          libelle: "compte famille",
           money: 500,
         }
       }

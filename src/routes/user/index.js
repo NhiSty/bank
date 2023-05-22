@@ -12,11 +12,29 @@ router.get("/:id", async (req, res) => {
 
 		const user = await prisma.user.findUnique({ where: { id },include: { accounts: true } });
 
+
 		if (!user) {
 			return res.send({ status: 404, body: { message: 'Données incorrect' } });
 		}
 
 		return res.send({ status: 200, body: { user } });
+
+	} catch (error) {
+		return res.status(502).json({ error: "Something went wrong" });
+	}
+});
+
+router.post("/:id/accounts/credit", async (req, res) => {
+	try {
+
+		const newUser = await prisma.user.create({
+			data: {
+			  email: 'elsa@prisma.io',
+			  name: 'Elsa Prisma',
+			},
+		  })
+
+		return res.send({ status: 200, body: { newUser } });
 
 	} catch (error) {
 		return res.status(502).json({ error: "Something went wrong" });
