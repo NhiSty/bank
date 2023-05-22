@@ -24,4 +24,21 @@ router.get("/:id", async (req, res) => {
 	}
 });
 
+router.post("/:id/accounts/credit", async (req, res) => {
+	try {
+
+		const newUser = await prisma.user.create({
+			data: {
+			  email: 'elsa@prisma.io',
+			  name: 'Elsa Prisma',
+			},
+		  })
+
+		return res.send({ status: 200, body: { newUser } });
+
+	} catch (error) {
+		return res.status(502).json({ error: "Something went wrong" });
+	}
+});
+
 module.exports = router;
