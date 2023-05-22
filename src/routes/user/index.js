@@ -24,24 +24,33 @@ router.get("/:id", async (req, res) => {
 	}
 });
 
-router.post("/:id/accounts/credit", async (req, res) => {
+router.post("/accounts/credit", async (req, res) => {
 	try {
 
-		const { id } = req.params
+		const {idUser, idAccount, montant} = req.body;
 
-		const montant = req.body;
+		const user = await prisma.user.findUnique({ where: { id:idUser },include: { accounts: true } });
 
-		const user = await prisma.user.findUnique({ where: { id },include: { accounts: true } });
+		const account = await prisma.account.findUnique({where: {id: idAccount}})
 
-		if (!user) {
-			return res.send({ status: 404, body: { message: 'Données incorrect' } });
-		}
+		const currentMoney = account.money
 
-		user.accounts.money += montant 
+		const newMoney = currentMoney + montant
 
-		return res.send({ status: 200, body: { user } });
+		const result = await prisma.account.update({
+			where: {
+				id: idAccount
+			},
+			data: {
+				money: newMoney
+			},
+		})
+
+		return res.json(result)
 
 	} catch (error) {
+		console.log(error)
+
 		return res.status(502).json({ error: "Something went wrong" });
 	}
 });
