@@ -8,6 +8,7 @@ const cors = require('cors');
 const loginRouter = require('./routes/auth/login');
 const logoutRouter = require('./routes/auth/logout');
 const registerRouter = require('./routes/auth/register');
+const getUserRouter = require('./routes/user/get');
 
 const errorHandler = require('./middleware/errorHandler');
 
@@ -24,6 +25,7 @@ app.use(cors());
 app.use('/api/login', loginRouter);
 app.use('/api/logout', logoutRouter);
 app.use('/api/register', registerRouter);
+app.use('/api/user', getUserRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
