@@ -10,7 +10,8 @@ router.get("/:id", async (req, res) => {
 
 		const { id } = req.params
 
-		const user = await prisma.user.findUnique({ where: { id } });
+		const user = await prisma.user.findUnique({ where: { id },include: { accounts: true } });
+
 
 		if (!user) {
 			return res.send({ status: 404, body: { message: 'Données incorrect' } });
