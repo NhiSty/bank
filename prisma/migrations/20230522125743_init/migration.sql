@@ -15,6 +15,7 @@ CREATE TABLE "Account" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "userId" TEXT NOT NULL,
+    "libelle" TEXT NOT NULL,
     "money" INTEGER NOT NULL,
 
     CONSTRAINT "Account_pkey" PRIMARY KEY ("id")
