@@ -27,14 +27,19 @@ router.get("/:id", async (req, res) => {
 router.post("/:id/accounts/credit", async (req, res) => {
 	try {
 
-		const newUser = await prisma.user.create({
-			data: {
-			  email: 'elsa@prisma.io',
-			  name: 'Elsa Prisma',
-			},
-		  })
+		const { id } = req.params
 
-		return res.send({ status: 200, body: { newUser } });
+		const montant = req.body;
+
+		const user = await prisma.user.findUnique({ where: { id },include: { accounts: true } });
+
+		if (!user) {
+			return res.send({ status: 404, body: { message: 'Données incorrect' } });
+		}
+
+		user.accounts.money += montant 
+
+		return res.send({ status: 200, body: { user } });
 
 	} catch (error) {
 		return res.status(502).json({ error: "Something went wrong" });
