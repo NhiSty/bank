@@ -1,4 +1,3 @@
-const argon2 = require('argon2');
 const { PrismaClient } = require('@prisma/client')
 
 
@@ -6,7 +5,17 @@ const prisma = new PrismaClient();
 
 
 async function main() {
-    
+  await prisma.user.create({
+    data: {
+      email: 'test@gmail.com',
+      name: 'M.Test',
+      accounts: {
+        create: {
+          money: 500,
+        }
+      }
+    }
+  });
 }
 main()
     .catch((e) => {
