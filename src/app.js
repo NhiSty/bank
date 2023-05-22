@@ -8,7 +8,7 @@ const cors = require('cors');
 const loginRouter = require('./routes/auth/login');
 const logoutRouter = require('./routes/auth/logout');
 const registerRouter = require('./routes/auth/register');
-const getUserRouter = require('./routes/user/user');
+const getUserRouter = require('./routes/user');
 
 const errorHandler = require('./middleware/errorHandler');
 
@@ -20,7 +20,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors());
-
 
 app.use('/api/login', loginRouter);
 app.use('/api/logout', logoutRouter);
