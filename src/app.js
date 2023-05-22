@@ -8,7 +8,7 @@ const cors = require('cors');
 const loginRouter = require('./routes/auth/login');
 const logoutRouter = require('./routes/auth/logout');
 const registerRouter = require('./routes/auth/register');
-const getUserRouter = require('./routes/user/get');
+const getUserRouter = require('./routes/user/user');
 
 const errorHandler = require('./middleware/errorHandler');
 

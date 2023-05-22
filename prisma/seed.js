@@ -12,6 +12,7 @@ async function main() {
       accounts: {
         create: {
           money: 500,
+          libelle: 'Compte courant',
         }
       }
     }
