@@ -1,6 +1,8 @@
 
 const { PrismaClient } = require('@prisma/client')
+// eslint-disable-next-line import/extensions
 const express = require('express');
+const {DoNotHaveFiveAccount, addMoneyToAccount} = require('../../../validator/userValidator')
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -27,30 +29,15 @@ router.get("/:id", async (req, res) => {
 router.post("/accounts/credit", async (req, res) => {
 	try {
 
-		const {idUser, idAccount, montant} = req.body;
+		const { id,money,accountId } = req.body
 
-		const user = await prisma.user.findUnique({ where: { id:idUser },include: { accounts: true } });
+		const user = await prisma.user.findUnique({ where: { id },include: { accounts: true } });
 
-		const account = await prisma.account.findUnique({where: {id: idAccount}})
+		const value = await addMoneyToAccount(user, accountId, money)
 
-		const currentMoney = account.money
-
-		const newMoney = currentMoney + montant
-
-		const result = await prisma.account.update({
-			where: {
-				id: idAccount
-			},
-			data: {
-				money: newMoney
-			},
-		})
-
-		return res.json(result)
+		return res.send({ status: 200, body:  value});
 
 	} catch (error) {
-		console.log(error)
-
 		return res.status(502).json({ error: "Something went wrong" });
 	}
 });
