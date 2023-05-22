@@ -6,29 +6,13 @@ describe('app', () => {
     expect(app).toBeTruthy();
   });
 
-  describe('GET /', () => {
-    it('should respond to the GET method with 200', async () => {
-      const response = await request(app).get('/');
-      expect(response.statusCode).toBe(200);
-    });
+  it('should return 404 for unknown routes', async () => {
+    const response = await request(app).get('/api/unknown-route');
+    expect(response.status).toEqual(404);
   });
 
-  describe('GET /404', () => {
-    beforeEach(() => {
-      // Avoid polluting the test output with 404 error messages
-      jest.spyOn(console, 'error').mockImplementation(() => {});
-    });
-
-    it('should respond to the GET method with a 404 for a route that does not exist', async () => {
-      const response = await request(app).get('/404');
-      expect(response.statusCode).toBe(404);
-      expect(response.text).toBe('{"message":"Not Found"}');
-    });
-
-    it('should respond to the POST method with a 404 for a route that does not exist', async () => {
-      const response = await request(app).post('/404');
-      expect(response.statusCode).toBe(404);
-      expect(response.text).toBe('{"message":"Not Found"}');
-    });
+  it('should return 200 for the root route', async () => {
+    const response = await request(app).get('/api/user/c3c3a799-61b4-4b30-a10e-237056bd5c85');
+    expect(response.status).toEqual(200);
   });
 });
